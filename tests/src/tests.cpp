@@ -133,10 +133,6 @@ TEST_CASE("btree")
   REQUIRE (Contains (2, root) == 0);
   REQUIRE (Contains (3, root) == 0);
 
-
-
-
-
   // (D) and (E)
   root = Insert (-1, root);
   root = Insert (-1, root);
@@ -145,13 +141,11 @@ TEST_CASE("btree")
   root = Remove (-1, root);
   REQUIRE (Contains (-1, root) == 0);
 
-
   REQUIRE (Full (root) == false);
 
   root = Remove (45, root);
   root = Remove (42, root);
   root = Insert (16, root);
-
 
   REQUIRE (Contains (20, root) == 1);
   REQUIRE (Contains (5, root) == 1);
