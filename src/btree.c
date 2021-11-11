@@ -60,7 +60,7 @@ struct tree_node * Remove (int x, struct tree_node *t)
  // Remove one item from the tree t
 
   //Base case: The tree is empty => nothing happens
-  if (t->item == NULL && t->left == NULL && t->right == NULL)
+  if (t == NULL)
   {
     return t;
   }  
@@ -148,10 +148,7 @@ struct tree_node * Initialize (struct tree_node *t)
 {
   // Create an empty tree
   //Both the item of the root and both the childrens are NULL
-  t = malloc(sizeof (tree_node));
-  t->item = NULL;
-  t->left = NULL;
-  t->right = NULL;
+  t = NULL;
 
   return t;
 }
@@ -163,7 +160,7 @@ int Empty (struct tree_node *t)
   /* If nothing has not yet been inserted in the tree, the item of the root will still be NULL.
   *  Returns false (0) otherwise.
   */
-  if (t->item == NULL && t->left == NULL && t->right == NULL)
+  if (t == NULL)
     return 1;
 
   else

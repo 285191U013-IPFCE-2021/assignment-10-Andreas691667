@@ -19,23 +19,24 @@ node *make_node (int v, node * q)
   node *p = (node*) malloc(sizeof (node));
   p->value = v;
 
-  if (q == &SENTINEL_node)
-    p->next = &SENTINEL_node;
+  if (q == NULL)
+    p->next = NULL;
   else
     p->next = q;
   return p;
 }
 
 /* free all nodes in the list p */
-void free_list (node * p)
+node* free_list (node * p)
 {
   node *q = p;
-  while (q != &SENTINEL_node)
+  while (q != NULL)
     {
       node *t = q->next;
       free (q);
       q = t;
     }
+  return q;
 
 }
 
@@ -46,10 +47,10 @@ void print_list (node * p)
     // There is NO testcode for this
 
     //precondition: List isn't empty
-    assert(p != &SENTINEL_node);
+    assert(p != NULL);
 
     //Base case: The list consists of only one element
-    if (p->next == &SENTINEL_node)
+    if (p->next == NULL)
       printf("%d", p->value);
     
     //Recursive step: Print the value of the current node, and then the next one
@@ -67,13 +68,13 @@ int sum_squares (node * p)
     // You can find the tests in tests.cpp
 
     //Base case 1: List is empty - the sum of squares will be 0
-    if (p == &SENTINEL_node)
+    if (p == NULL)
     {
       return 0;
     }
     
     //Base case 2: The list consists of only one element
-    else if (p->next == &SENTINEL_node)
+    else if (p->next == NULL)
       return square(p->value);
 
     /*Recursive step: The nodes are squared and added
@@ -87,8 +88,8 @@ int sum_squares (node * p)
 node *map (node * p, int (*f) (int))
 {
   // Add your code for excercise 3
-  if (p == &SENTINEL_node)
-    return &SENTINEL_node;
+  if (p == NULL)
+    return NULL;
   
   else
     return make_node(f(p->value), map(p->next, f));

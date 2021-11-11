@@ -1,10 +1,10 @@
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
-#include "C:\Users\Andreas\Desktop\VSCode\Afleveringer\assignment-10-Andreas691667\tests\include\catch.hpp"
+#include "catch.hpp"
 
 extern "C"
 {
-#include "C:\Users\Andreas\Desktop\VSCode\Afleveringer\assignment-10-Andreas691667\include\linked_list.h"
-#include "C:\Users\Andreas\Desktop\VSCode\Afleveringer\assignment-10-Andreas691667\include\btree.h"
+#include "linked_list.h"
+#include "btree.h"
 }
 
 // See Catch2's documentation: https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md#scaling-up
@@ -19,41 +19,44 @@ TEST_CASE("linked_list")
 				   make_node (3,
 					      make_node (4,
 							  make_node (5,
-								    &SENTINEL_node)))));
+								    NULL)))));
 
 	sum = sum_squares (ns);	/* sum should equal 55 */
-  	REQUIRE(sum==55);
-  free_list(ns);
-	// sum=sum_squares(ns);
-	// REQUIRE(sum==0);
+  REQUIRE(sum==55);
+  ns = free_list(ns);
+	sum=sum_squares(ns);
+	REQUIRE(sum==0);
 
-	ns = make_node (1,&SENTINEL_node);
+	ns = make_node (1,NULL);
 	sum=sum_squares(ns);
 	REQUIRE(sum==1);
-	
+
 	//exercise 3
 	//ns contains one node with the value 1
 	node *mns = map (ns, square);
 	sum=sum_squares(ns);
 	REQUIRE(sum==1);
-	free_list(ns);
+	ns = free_list(ns);
   	ns = make_node (1,
 			make_node (2,
 				   make_node (3,
-					      &SENTINEL_node)));
+					      NULL)));
 	//ns is 1->2->3
-  	mns = map (ns, square);
+  mns = map (ns, square);
 	//ns is 1->4->9
 	sum=sum_squares(ns);
-	//1+16+81 = 98
-	REQUIRE(sum==98);
-	free_list(ns);
+	//1+4+9 = 14
+	REQUIRE(sum==14);
+  sum=sum_squares(mns);
+  //1+16+81 = 98
+  REQUIRE(sum==98);
+	ns = free_list(ns);
 }
 
 TEST_CASE("btree")
 {
     // Add your tests here you can use the REQUIRE() statement
-	
+
 	  /*
      //               20
      //             /    \
@@ -143,7 +146,7 @@ TEST_CASE("btree")
   REQUIRE (Contains (-1, root) == 0);
 
 
-  //REQUIRE (Full (root) == false);
+  REQUIRE (Full (root) == false);
 
   root = Remove (45, root);
   root = Remove (42, root);
@@ -164,7 +167,7 @@ TEST_CASE("btree")
   REQUIRE (Contains (42, root) == 0);
   REQUIRE (Contains (16, root) == 1);
 
-  REQUIRE (Full (root) == 1);
+  REQUIRE (Full (root) == false);
 
   root = Remove (7, root);
 
