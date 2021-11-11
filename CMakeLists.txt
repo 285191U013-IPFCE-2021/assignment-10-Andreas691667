@@ -27,9 +27,9 @@ set(CMAKE_CXX_STANDARD 14)
 add_library(mymath src/linked_list.c src/btree.c)
 target_include_directories(mymath PUBLIC include)
 
-# define executable named main for experimenting and debugging code
-add_executable(main src/main.cpp)
-target_link_libraries(main mymath)
+# # define executable named main for experimenting and debugging code
+# add_executable(main src/main.cpp)
+# target_link_libraries(main mymath)
 
 # tests are added by declaring a target, in this case 'tests'. additional tests
 # can be added by expanding the test cases in 'src/tests.cpp' or an additional

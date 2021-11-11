@@ -1,12 +1,22 @@
-#include "linked_list.h"
-/*
- * Linked list
- */
+extern "C"{
+    // Add the header files required to run your main 
+    // #include "C:\Users\Andreas\Desktop\VSCode\Afleveringer\assignment-10-Andreas691667\include\linked_list.h"
+}
 
-#include <stdio.h>		/* printf */
-#include <stdlib.h>		/* malloc, free */
+#include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>		/* assert */
 #include <math.h>
+#include <malloc.h>
+
+typedef struct node
+{
+   int value;
+   struct node * next;
+} node;
+
+/* terminal node at the end of the list */
+static node SENTINEL_node = {0,0};
 
 int square (int x)
 {
@@ -27,7 +37,7 @@ node *make_node (int v, node * q)
 }
 
 /* free all nodes in the list p */
-void free_list (node * p)
+node* free_list (node * p)
 {
   node *q = p;
   while (q != &SENTINEL_node)
@@ -36,7 +46,7 @@ void free_list (node * p)
       free (q);
       q = t;
     }
-
+  return q;
 }
 
 /* print list to console */
@@ -93,4 +103,64 @@ node *map (node * p, int (*f) (int))
   else
     return make_node(f(p->value), map(p->next, f));
   
+}
+
+// File for sandboxing and trying out code
+int main(int argc, char **argv)
+{
+    	//exercise 2
+    	int sum;
+      node *ns = NULL;
+    	ns = make_node (1,
+			make_node (2,
+				   make_node (3,
+					      make_node (4,
+							  make_node (5,
+								    &SENTINEL_node)))));
+
+	sum = sum_squares (ns);	/* sum should equal 55 */
+
+    printf("Sum is %d and should be 55\n", sum);
+
+  free_list(ns);
+      
+	sum=sum_squares(ns);
+
+  printf("Sum is %d and should be 0\n", sum);
+
+	ns = make_node (1,&SENTINEL_node);
+	sum=sum_squares(ns);
+
+    printf("Sum is %d and should be 1\n", sum);
+
+	//exercise 3
+	//ns contains one node with the value 1
+
+    //ns is 1-> SENT
+	node *mns = map (ns, square);
+	sum=sum_squares(ns);
+
+    printf("Sum of ns is %d and should be 1 \n", sum);
+     //1 = 1
+
+	free_list(ns);
+  	ns = make_node (1,
+			make_node (2,
+				   make_node (3,
+					      &SENTINEL_node)));
+	//ns is 1->2->3->SENT
+  	mns = map (ns, square);
+    //mns is 1->4->9->SENT
+
+    sum = sum_squares(ns);
+    //1+4+9 = 14
+    printf("Sum of ns is %d and should be 14 \n", sum);
+
+	sum=sum_squares(mns);
+	//1+16+81 = 98
+    printf("Sum of mns is %d and should be 98 \n", sum);
+
+	free_list(ns);
+    
+    return 0;
 }

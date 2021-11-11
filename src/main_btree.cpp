@@ -1,15 +1,22 @@
-#include "btree.h"
-#include<stdio.h>
-#include<stdlib.h>
-#include<assert.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>		/* assert */
+#include <math.h>
+#include <malloc.h>
+
+typedef struct tree_node
+{
+  int item;
+  struct tree_node *left;
+  struct tree_node *right;
+}tree_node;
 
 /* Utility function to create new binary search tree node
 *  Takes an integer x, and creates a new tree_node. Both children are set to NULL
 */
 struct tree_node * new_tree_node (int x) {
 
-  struct tree_node *temp = malloc(sizeof (tree_node));
+  struct tree_node *temp = (tree_node*) malloc(sizeof (tree_node));
   temp->item = x;
   temp->left = temp->right = NULL;
   return temp;
@@ -148,7 +155,7 @@ struct tree_node * Initialize (struct tree_node *t)
 {
   // Create an empty tree
   //Both the item of the root and both the childrens are NULL
-  t = malloc(sizeof (tree_node));
+  t = (tree_node*) malloc(sizeof (tree_node));
   t->item = NULL;
   t->left = NULL;
   t->right = NULL;
@@ -177,4 +184,127 @@ int Full (struct tree_node *t)
     //the tree cannot be full
 
     return 0;
+}
+
+
+int main(int argc, char **argv)
+{
+  // Add your tests here you can use the REQUIRE() statement
+	
+	  /*
+     //               20
+     //             /    \
+     //            /      \
+     //           5       30
+     //         /   \     /\
+     //        /     \   /  \
+     //       1      15 25  40
+     //            /          \
+     //           /            \
+     //          9             45
+     //        /   \          /
+     //       /     \        /
+     //      7      12      42
+   */
+  struct tree_node *root = NULL;
+  int x;
+
+  //Testing law A
+  root = Initialize (root);
+
+  x = Empty(root);
+  printf("Testing law A \n    x equals %d and should equal 1 \n\n", x);
+
+  //Testing law B
+  root = Insert(5, root);
+  root = Remove(5,root);
+  x = Empty(root);
+  printf("Testing law B \n    x equals %d and should equal 1 \n\n", x);
+
+  //Testing law C and empty function for non-empty tree
+  printf("Testing law C and empty function for non-empty tree \n");
+  root = Insert (20, root);
+  root = Insert (5, root);
+  root = Insert (1, root);
+  root = Insert (15, root);
+  root = Insert (9, root);
+  root = Insert (7, root);
+  root = Insert (12, root);
+  root = Insert (30, root);
+  root = Insert (25, root);
+  root = Insert (40, root);
+  root = Insert (45, root);
+  root = Insert (42, root);
+  
+  x = Empty(root);
+  printf("    x equals %d and should equal 0 \n", x); 
+  x = Contains (20, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (5, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (1, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (15, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (9, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (7, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (12, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (30, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (25, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (40, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (45, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (42, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains (2, root);
+  printf("    x equals %d and should equal 0 \n", x);
+  x = Contains (3, root);
+  printf("    x equals %d and should equal 0 \n \n", x);
+
+  //Testing law D
+  printf("Testing law D\n");
+  root = Remove(40, root);
+  x = Contains(42, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  x = Contains(40, root);
+  printf("    x equals %d and should equal 0 \n\n", x);
+
+  //Testing law E
+  printf("Testing law E\n");
+  root = Insert (-1, root);
+  root = Insert (-1, root);
+  root = Remove (-1, root);
+  x = Contains (-1, root);
+  printf("    x equals %d and should equal 1 \n", x);
+  root = Remove (-1, root);
+  x = Contains (-1, root);
+  printf("    x equals %d and should equal 0 \n\n", x);
+
+
+  //Emptying tree completely
+  printf("Emptying tree and testing Remove function non-existent values  \n");
+  root = Remove (20, root);
+  root = Remove (5, root);
+  root = Remove (1, root);
+  root = Remove (15, root);
+  root = Remove (9, root);
+  root = Remove (7, root);
+  root = Remove (12, root);
+  root = Remove (30, root);
+  root = Remove (25, root);
+  root = Remove (40, root);
+  root = Remove (45, root);
+  root = Remove (42, root);
+
+  x = Empty(root);
+  printf("    x equals %d and should equal 1 \n\n", x);
+
+  free (root);
+  return 0;
 }
